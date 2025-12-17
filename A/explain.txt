@@ -1,0 +1,29 @@
+Overview:
+- Implements Collatz sequence generation in the child process using `fork()`; parent waits with `wait()`.
+- Validates input is a positive integer; child prints the full sequence until 1.
+
+How it’s solved:
+- Parse and validate CLI argument.
+- `fork()` to create child that iteratively applies Collatz rules and prints values.
+- Parent uses `wait()` to ensure proper synchronization and exit status handling.
+
+Requirements satisfaction:
+- Multithreading/process: Uses processes via `fork()` and `wait()`.
+- Deterministic output: Same input yields the same sequence every run.
+- Robust input: Rejects non-positive integers, shows usage.
+
+Viva prompts:
+Q: Why use fork instead of a thread?
+A: The assignment requires fork; processes demonstrate isolation of address space while still letting the parent synchronize with wait.
+
+Q: What happens to n in parent vs child (copy-on-write)?
+A: After fork each process has its own copy; changes to n in the child do not affect the parent because of copy-on-write page semantics.
+
+Q: How does wait prevent a zombie process?
+A: wait reaps the child’s exit status and releases its entry from the process table so the child does not remain as a zombie.
+
+Q: What about complexity and the steps to reach 1?
+A: The stopping time is unproven for all inputs; empirically the sequence length is finite for tested n but no proof exists (Collatz conjecture).
+
+Q: Edge cases like n=1 or large n and overflow?
+A: For n=1 the child prints 1 and exits immediately. For large n the 3n+1 step can overflow 32-bit ints, so using wider types (long long) would extend safe range.

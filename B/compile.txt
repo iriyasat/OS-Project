@@ -1,0 +1,5 @@
+cd /home/ihriyasat/Documents/OS/B && gcc -std=c11 -Wall -Wextra -O2 -pthread -o md5hash md5Hash.c
+
+./md5hash .
+./md5hash ~/Downloads
+./md5hash /home/ihriyasat/Documents

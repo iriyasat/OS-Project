@@ -1,0 +1,6 @@
+cd /home/ihriyasat/Documents/OS/A && gcc -std=c11 -Wall -Wextra -O2 -o collatz collatz.c
+
+./collatz 8
+./collatz 35
+./collatz 1
+./collatz -5

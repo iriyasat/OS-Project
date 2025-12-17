@@ -1,0 +1,7 @@
+# PID ARRIVAL BURST QUEUE
+# Queue mapping: 0 = Round Robin (high), 1 = SRTF (mid), 2 = FCFS (low)
+P1 0 8 0
+P2 1 4 1
+P3 2 9 2
+P4 3 5 0
+P5 6 2 1

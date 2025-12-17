@@ -1,0 +1,25 @@
+Overview:
+- Dining Philosophers simulation implemented in Java, Python, and C to illustrate deadlock avoidance and starvation detection.
+
+How it’s solved:
+- Five philosopher threads; chopsticks modeled as mutexes/locks.
+- Asymmetric pickup (even: left→right, odd: right→left) plus timeout; if both not acquired in time, release and retry.
+- Run for a configurable duration; report meals, last-meal time, and deadlock/starvation status.
+
+Requirements satisfaction:
+- Threads used to represent philosophers; synchronization via locks.
+- Deterministic logic with randomized think/eat durations in bounded ranges.
+- Handles parameterization of durations/timeouts.
+
+Viva prompts:
+- Why asymmetric pickup reduces circular wait.
+- How timeout prevents hold-and-wait deadlock.
+- What metrics indicate starvation vs healthy progress.
+- Differences among Java/Python/C implementations in threading and timers.
+- How semaphores would change the solution and trade-offs.
+Answers:
+- Asymmetric pickup: alternating left/right acquisition breaks the cycle of identical resource ordering, removing one condition for circular wait and reducing deadlock risk.
+- Timeout: bounded wait on the second chopstick forces release and retry, so no thread can hold one resource indefinitely while waiting for the other; this releases locks to let others proceed.
+- Metrics: count meals per philosopher and track time since last meal; starvation is flagged when last-meal age exceeds a threshold while others still eat; healthy progress shows all philosophers eating periodically with non-zero meal counts.
+- Language differences: Java uses `ReentrantLock` with timed `tryLock` and scheduled checks; Python uses `threading.Lock` with timeout and `time.monotonic` for durations but has GIL affecting true parallelism; C uses `pthread_mutex_t` and `pthread_mutex_timedlock`/manual timeout logic with `clock_gettime`, giving lowest-level control.
+- Semaphores: a single counting semaphore at `N-1` gates entry, ensuring at most four philosophers compete for five forks, which guarantees no deadlock but changes fairness; per-fork semaphores behave like mutexes. Trade-off: simpler proof of safety but less fine-grained control over pickup strategy and potential throughput reduction.

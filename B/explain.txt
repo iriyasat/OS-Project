@@ -1,0 +1,28 @@
+Overview:
+- Multithreaded file hasher that computes MD5 for files in given paths (files or directories, recursive).
+
+How it’s solved:
+- A bounded queue holds file tasks.
+- A pool of 8 worker threads dequeues tasks, reads file bytes, computes MD5, and prints `<basename> <HASH>` immediately when done.
+- Directories are traversed recursively; files are enqueued as tasks.
+
+Requirements satisfaction:
+- Multithreading: 8 threads run concurrently.
+- Deterministic output: Hashes are deterministic; ordering is per completion (not sorted) as required.
+- Robust input: Handles files and dirs; prints errors for inaccessible paths.
+
+Viva prompts:
+Q: Why use a producer/consumer queue and condition variables?
+A: Directory traversal enqueues work while workers dequeue; condition variables block threads instead of spinning when the queue is empty or full.
+
+Q: How do we avoid data races in printing?
+A: A dedicated output mutex serializes printf calls so lines do not interleave across threads.
+
+Q: Thread-safe queue vs busy-wait?
+A: The mutex/cond queue provides mutual exclusion and blocking; busy-wait would waste CPU cycles and still risk races.
+
+Q: Why doesn’t output order affect correctness of hashes?
+A: MD5 of a file is deterministic; the required behavior is to print as each file finishes, so ordering is irrelevant to correctness.
+
+Q: How to switch to SHA-256 or limit traversal depth?
+A: Replace the MD5 routines with a SHA-256 implementation and keep the same worker pipeline; add a depth counter during recursive directory walk to cap traversal.

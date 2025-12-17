@@ -1,0 +1,25 @@
+Overview:
+- Multi-level queue CPU scheduler simulation with 3 queues: RR (Q0), SRTF (Q1), FCFS (Q2).
+
+How it’s solved:
+- Parse process list file: `PID ARRIVAL BURST QUEUE`.
+- Maintain per-queue ready lists and a current running process; apply preemption rules (higher priority ready or better SRTF candidate).
+- Track per-process metrics (start, completion, turnaround, waiting, response) and overall CPU utilization/throughput.
+
+Requirements satisfaction:
+- Different scheduling per queue with clear priority ordering.
+- Deterministic results given the same input and quantum.
+- Handles empty intervals by jumping to next arrival to avoid idle loops.
+
+Viva prompts:
+- Why choose RR/SRTF/FCFS and how do they differ?
+- How is preemption handled across queues and within SRTF?
+- How do we compute CPU utilization and throughput?
+- Edge cases: simultaneous arrivals, zero quantum, all jobs in one queue.
+- How would you add aging or dynamic queue movement?
+Answers:
+- RR/SRTF/FCFS: RR keeps short interactive tasks responsive via time slicing, SRTF minimizes average waiting for medium jobs by always running the shortest remaining time, FCFS keeps long/batch jobs simple and non-preemptive; priority is Q0>Q1>Q2 so interactivity wins.
+- Preemption: any ready job in a higher queue preempts the runner; within Q1, a newly arrived process with shorter remaining time preempts the current SRTF job; Q0 preempts Q1/Q2 on quantum expiry or arrival, Q2 only runs when others are empty.
+- Utilization/throughput: utilization = busy_time/finish_time where busy_time is total executed quanta, finish_time is last completion timestamp; throughput = completed_processes/finish_time; per-process turnaround = completion-arrival, waiting = turnaround-burst, response = first_start-arrival.
+- Edge cases: simultaneous arrivals are ordered by queue priority then PID to stay deterministic; zero quantum is rejected/treated as error to avoid infinite preemption loop; if all jobs sit in one queue, scheduler collapses to that policy (pure RR, SRTF, or FCFS).
+- Aging/dynamic movement: decay a process’s priority when it waits past a threshold by promoting Q2→Q1→Q0; demote CPU hogs on repeated full quanta without completion; store wait counters and move between queues on a timer tick.

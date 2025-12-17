@@ -1,0 +1,21 @@
+Overview:
+- Two Windows utilities: `clipboard_jammer.c` (demonstrates a clipboard listener that replaces clipboard content), and `Reverse/clipboard_jammer_fix.c` (restores normal clipboard behavior by closing the jammer and resetting the clipboard).
+
+How it’s solved:
+- Jammer: registers as clipboard viewer or listener, opens clipboard on updates, replaces content.
+- Fix: locates jammer window/process, terminates it if present, empties and sets a restorative message to the clipboard.
+
+Requirements satisfaction:
+- Demonstrates synchronization and event-driven OS mechanisms on Windows (`WM_CLIPBOARDUPDATE`, viewer chain).
+- Deterministic behavior on clipboard events; defensive checks for missing APIs.
+
+Viva prompts:
+- Difference between legacy clipboard viewer chain and modern `AddClipboardFormatListener`.
+- Why the clipboard is a shared OS resource and typical race/permission issues.
+- How to detect and shut down a misbehaving listener.
+- Portability: why these programs are Windows-only and how to adapt for Linux (X11 selections, Wayland limitations).
+Answers:
+- Viewer chain vs listener: viewer chain uses `SetClipboardViewer` and links windows; if one dies the chain can break; `AddClipboardFormatListener` registers independent listeners on a system list with less coupling and supports UWP. Listener is preferred for robustness and fewer chain-repair duties.
+- Shared resource: the clipboard is global state guarded by the OS; races happen when multiple apps poll/modify simultaneously or hold the clipboard open too long; permission prompts appear in sandboxed/UWP contexts and on elevated/low-integrity crossings; always open/close quickly and check return codes.
+- Detect/shut down: enumerate top-level windows for known class/title, send `WM_CLOSE`, and if needed terminate the process by PID; you can also watch for stuck `WM_CLIPBOARDUPDATE` storms and log the originating handle before killing it; after stopping it, empty the clipboard and set benign text.
+- Portability: this code relies on Win32 messaging and HGLOBAL clipboard APIs; on X11 you would use selections (`PRIMARY`/`CLIPBOARD`) via XFixes or gtk/Qt hooks, but ownership is transient; Wayland restricts global clipboard snooping so a jammer/fix is usually impossible without compositor support. 
