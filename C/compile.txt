@@ -2,5 +2,4 @@ cd /home/ihriyasat/Documents/OS/C
 python3 mlq.py sample_processes.txt
 python3 mlq.py sample_processes.txt --non-preemptive
 python3 mlq.py sample_processes.txt --quantum=4
-python3 mlq.py ~/Downloads/your_processes.txt
-python3 mlq.py "~/Downloads/my processes.txt" --quantum=3
+
