@@ -5,5 +5,6 @@
 #   x86_64-w64-mingw32-gcc -O2 -municode -o clipboard_jammer_fix.exe Reverse/clipboard_jammer_fix.c -luser32 -lkernel32 -ladvapi32
 
 # Using MSVC (Developer Command Prompt):
+cd /d "C:\Users\Ibrahim Hasan\OneDrive\Documents\OS-Project\D"
 cl /W4 /O2 clipboard_jammer.c user32.lib
 cl /W4 /O2 Reverse\clipboard_jammer_fix.c user32.lib kernel32.lib advapi32.lib
