@@ -27,15 +27,19 @@ A: A semaphore is a synchronization primitive with a counter. A binary semaphore
 Q: What is a lock (mutex) and how does it prevent race conditions?
 A: A lock (mutex) ensures only one thread holds it at a time. A thread must acquire the lock before entering a critical section; others wait. This prevents concurrent access and race conditions.
 
-Viva prompts:
-- Why asymmetric pickup reduces circular wait.
-- How timeout prevents hold-and-wait deadlock.
-- What metrics indicate starvation vs healthy progress.
-- Differences among Java/Python/C implementations in threading and timers.
-- How semaphores would change the solution and trade-offs.
-Answers:
-- Asymmetric pickup: alternating left/right acquisition breaks the cycle of identical resource ordering, removing one condition for circular wait and reducing deadlock risk.
-- Timeout: bounded wait on the second chopstick forces release and retry, so no thread can hold one resource indefinitely while waiting for the other; this releases locks to let others proceed.
-- Metrics: count meals per philosopher and track time since last meal; starvation is flagged when last-meal age exceeds a threshold while others still eat; healthy progress shows all philosophers eating periodically with non-zero meal counts.
-- Language differences: Java uses `ReentrantLock` with timed `tryLock` and scheduled checks; Python uses `threading.Lock` with timeout and `time.monotonic` for durations but has GIL affecting true parallelism; C uses `pthread_mutex_t` and `pthread_mutex_timedlock`/manual timeout logic with `clock_gettime`, giving lowest-level control.
-- Semaphores: a single counting semaphore at `N-1` gates entry, ensuring at most four philosophers compete for five forks, which guarantees no deadlock but changes fairness; per-fork semaphores behave like mutexes. Trade-off: simpler proof of safety but less fine-grained control over pickup strategy and potential throughput reduction.
+Q: What is synchronization doing here?
+A: Synchronization ensures that only one philosopher can hold a chopstick at a time using locks/mutexes. This prevents two philosophers from grabbing the same chopstick simultaneously, avoiding conflicts and ensuring safe access to shared resources.
+
+Q: Why asymmetric pickup reduces circular wait.
+A: Asymmetric pickup: alternating left/right acquisition breaks the cycle of identical 
+resource ordering, removing one condition for circular wait and reducing deadlock risk.
+
+Q: How timeout prevents hold-and-wait deadlock.
+A: Timeout: bounded wait on the second chopstick forces release and retry, so no thread can hold one resource indefinitely while waiting for the other; this releases locks to let others proceed.
+
+Q: What metrics indicate starvation vs healthy progress.
+A: Metrics: count meals per philosopher and track time since last meal; starvation is flagged when last-meal age exceeds a threshold while others still eat; healthy progress shows all philosophers eating periodically with non-zero meal counts.
+
+
+Q: How semaphores would change the solution and trade-offs.
+A: Semaphores: a single counting semaphore at `N-1` gates entry, ensuring at most four philosophers compete for five forks, which guarantees no deadlock but changes fairness; per-fork semaphores behave like mutexes. Trade-off: simpler proof of safety but less fine-grained control over pickup strategy and potential throughput reduction.
