@@ -4,10 +4,3 @@ java -cp /home/ihriyasat/Documents/OS/E DiningPhilosophers
 
 # Longer run with different timings
 java -cp /home/ihriyasat/Documents/OS/E DiningPhilosophers --run-time=15 --max-think=2 --max-eat=1.5 --timeout=1.0 --starvation-limit=6
-
-# Python implementation
-python3 /home/ihriyasat/Documents/OS/E/dining_philosophers.py --run-time=15
-
-# C implementation 
-cd /home/ihriyasat/Documents/OS/E && gcc -std=c11 -O2 -pthread -o dining_philosophers_c DiningPhilosophers.c
-./dining_philosophers_c --run-time=15
