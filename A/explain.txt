@@ -11,8 +11,22 @@ Requirements satisfaction:
 - Multithreading/process: Uses processes via `fork()` and `wait()`.
 - Deterministic output: Same input yields the same sequence every run.
 - Robust input: Rejects non-positive integers, shows usage.
+Viva Questions:
+Q: What is the Collatz sequence and what is its stopping condition?
+A: The Collatz sequence repeatedly applies: if n is even divide by 2, if n is odd multiply by 3 and add 1. The sequence stops when it reaches 1.
 
-Viva prompts:
+Q: What is the difference between a process and a thread?
+A: A process has its own memory space and resources (heavyweight), while a thread shares memory with other threads in the same process (lightweight).
+
+Q: What does `fork()` do?
+A: `fork()` creates a child process as a copy of the parent; it returns the child's PID in the parent and 0 in the child.
+
+Q: What does `wait()` do?
+A: `wait()` blocks the parent until the child exits; it retrieves the child's exit status and removes it from the process table.
+
+Q: Why is it important for the parent to call `wait()` on the child?
+A: Without `wait()`, the child becomes a zombie process (terminated but still in the process table), wasting system resources.
+
 Q: Why use fork instead of a thread?
 A: The assignment requires fork; processes demonstrate isolation of address space while still letting the parent synchronize with wait.
 
@@ -27,3 +41,5 @@ A: The stopping time is unproven for all inputs; empirically the sequence length
 
 Q: Edge cases like n=1 or large n and overflow?
 A: For n=1 the child prints 1 and exits immediately. For large n the 3n+1 step can overflow 32-bit ints, so using wider types (long long) would extend safe range.
+
+

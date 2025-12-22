@@ -9,6 +9,22 @@ Requirements satisfaction:
 - Demonstrates synchronization and event-driven OS mechanisms on Windows (`WM_CLIPBOARDUPDATE`, viewer chain).
 - Deterministic behavior on clipboard events; defensive checks for missing APIs.
 
+Basic Viva Questions:
+Q: What is the clipboard and how is it used in operating systems?
+A: The clipboard is a shared OS resource that allows data to be copied from one application and pasted into another, enabling inter-application data transfer.
+
+Q: What is a clipboard listener or viewer?
+A: A clipboard listener/viewer is a program that registers with the OS to be notified whenever the clipboard content changes, allowing it to monitor or react to copy/paste events.
+
+Q: What is the difference between a Windows message and an event?
+A: A message is a notification sent to a window about user or system actions. An event is a synchronization primitive used by threads. `WM_CLIPBOARDUPDATE` is a message.
+
+Q: What does it mean for a program to be malware or a jammer in the clipboard context?
+A: A clipboard jammer hijacks clipboard changes and replaces content without user consent, disrupting normal copy-paste operations and potentially stealing or corrupting data.
+
+Q: Why is the clipboard a shared resource and what are the security implications?
+A: Multiple applications access the clipboard; without proper synchronization, race conditions can occur. Security concerns include data leakage (sensitive copied text) and unauthorized modification.
+
 Viva prompts:
 - Difference between legacy clipboard viewer chain and modern `AddClipboardFormatListener`.
 - Why the clipboard is a shared OS resource and typical race/permission issues.

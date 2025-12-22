@@ -11,6 +11,25 @@ Requirements satisfaction:
 - Deterministic results given the same input and quantum.
 - Handles empty intervals by jumping to next arrival to avoid idle loops.
 
+Basic Viva Questions:
+Q: What is CPU scheduling and why is it important?
+A: CPU scheduling decides which process runs next on the CPU. It is important to maximize CPU utilization, fairness, responsiveness, and minimize wait time.
+
+Q: What is the difference between preemptive and non-preemptive scheduling?
+A: Preemptive scheduling can interrupt a running process to run a higher-priority process. Non-preemptive scheduling lets a process run until it voluntarily releases the CPU.
+
+Q: What is the time quantum in Round Robin scheduling?
+A: The time quantum is the maximum time slice a process gets before being preempted. It ensures fair distribution of CPU time among processes.
+
+Q: What is turnaround time and waiting time?
+A: Turnaround time = completion time - arrival time (total time in the system). Waiting time = turnaround time - burst time (time spent waiting for CPU).
+
+Q: What is CPU utilization and throughput?
+A: CPU utilization = (total CPU busy time / total elapsed time) × 100%. Throughput = number of processes completed per unit time.
+
+Q: What are the three queues in this multi-level scheduler and their algorithms?
+A: Queue 0 uses Round Robin (fair time slicing), Queue 1 uses SRTF (shortest remaining time first), and Queue 2 uses FCFS (first-come first-served).
+
 Viva prompts:
 - Why choose RR/SRTF/FCFS and how do they differ?
 - How is preemption handled across queues and within SRTF?

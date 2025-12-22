@@ -11,7 +11,22 @@ Requirements satisfaction:
 - Deterministic output: Hashes are deterministic; ordering is per completion (not sorted) as required.
 - Robust input: Handles files and dirs; prints errors for inaccessible paths.
 
-Viva prompts:
+Viva Questions:
+Q: What is MD5 and what is it commonly used for?
+A: MD5 is a hash function that produces a 128-bit (16-byte) hexadecimal digest from any input. It's used for checksums and integrity verification, though cryptographically broken for collision resistance.
+
+Q: What is the purpose of a mutex?
+A: A mutex (mutual exclusion lock) ensures only one thread accesses a critical section at a time, preventing race conditions and data corruption.
+
+Q: What is a condition variable and why is it used?
+A: A condition variable allows threads to wait for a specific condition; instead of constantly polling (busy-waiting), a thread blocks and is awakened when the condition is signaled.
+
+Q: What is a producer-consumer queue?
+A: A producer-consumer pattern separates tasks into producers (creating work) and consumers (processing work) via a shared queue, decoupling them and balancing load.
+
+Q: What is a race condition?
+A: A race condition occurs when two threads access and modify shared data without synchronization, leading to unpredictable, incorrect results.
+
 Q: Why use a producer/consumer queue and condition variables?
 A: Directory traversal enqueues work while workers dequeue; condition variables block threads instead of spinning when the queue is empty or full.
 

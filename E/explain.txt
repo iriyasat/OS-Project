@@ -11,6 +11,22 @@ Requirements satisfaction:
 - Deterministic logic with randomized think/eat durations in bounded ranges.
 - Handles parameterization of durations/timeouts.
 
+Basic Viva Questions:
+Q: What is the Dining Philosophers problem?
+A: Five philosophers sit at a circular table with one chopstick between each pair. They think and eat, needing two chopsticks to eat. The challenge is to avoid deadlock and starvation.
+
+Q: What is deadlock and what are its four necessary conditions?
+A: Deadlock is when processes are stuck waiting for resources held by each other. Four conditions: (1) mutual exclusion, (2) hold-and-wait, (3) no preemption, (4) circular wait.
+
+Q: What is starvation and how does it differ from deadlock?
+A: Starvation is when a process never gets the resources it needs (indefinite postponement), even though the system is progressing. Deadlock is when no process makes progress.
+
+Q: What is a semaphore and what are the two main types?
+A: A semaphore is a synchronization primitive with a counter. A binary semaphore has values 0/1 (lock). A counting semaphore has arbitrary non-negative values (resource pool).
+
+Q: What is a lock (mutex) and how does it prevent race conditions?
+A: A lock (mutex) ensures only one thread holds it at a time. A thread must acquire the lock before entering a critical section; others wait. This prevents concurrent access and race conditions.
+
 Viva prompts:
 - Why asymmetric pickup reduces circular wait.
 - How timeout prevents hold-and-wait deadlock.
