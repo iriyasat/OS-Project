@@ -28,10 +28,12 @@ class Process:
 
 def parse_process_file(path: str) -> List[Process]:
     procs: List[Process] = []
-    if not os.path.exists(path):
-        raise FileNotFoundError(f"Could not open {path}")
+    # Expand user (~), environment variables, and resolve to absolute path
+    resolved_path = os.path.abspath(os.path.expanduser(os.path.expandvars(path)))
+    if not os.path.exists(resolved_path):
+        raise FileNotFoundError(f"Could not open {resolved_path}")
 
-    with open(path, "r", encoding="utf-8") as f:
+    with open(resolved_path, "r", encoding="utf-8") as f:
         for line in f:
             stripped = line.strip()
             if not stripped or stripped.startswith("#"):
@@ -235,7 +237,13 @@ def main() -> None:
     if args.quantum <= 0:
         parser.error("--quantum must be positive")
 
-    procs = parse_process_file(args.process_file)
+    try:
+        procs = parse_process_file(args.process_file)
+    except (FileNotFoundError, ValueError) as e:
+        # Use parser.error for consistent, clean error output without traceback
+        parser.error(str(e))
+        return
+
     simulate(procs, quantum=args.quantum, preemptive=args.preemptive)
 
 

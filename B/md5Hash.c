@@ -339,7 +339,7 @@ void add_files_from_directory(const char *dir_path) {
     closedir(dir);
 }
 
-void* worker_thread(void *arg) {
+void* worker_thread(__attribute__((unused)) void *arg) {
     FileTask task;
     
     while (queue_dequeue(queue, &task)) {
